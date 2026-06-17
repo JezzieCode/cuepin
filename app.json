@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "streamshelf",
-    "slug": "streamshelf",
+    "name": "CuePin",
+    "slug": "cuepin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -28,13 +28,3 @@
     }
   }
 }
-{
-  "expo": {
-    "name": "CuePin",
-    "slug": "cuepin",
-    "platforms": ["ios", "android", "web"],
-    "version": "1.0.0",
-    ...
-  }
-}
-
