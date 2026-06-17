@@ -29,6 +29,8 @@ export default function App() {
   const [newMeta, setNewMeta] = useState("");
   const [newCategory, setNewCategory] = useState("Pågående");
 
+  const [editingIndex, setEditingIndex] = useState<number | null>(null);
+
   useEffect(() => {
     const loadMovies = async () => {
       const savedMovies = await AsyncStorage.getItem("movies");
@@ -49,23 +51,60 @@ export default function App() {
     (movie) => movie.category.trim() === activeCategory
   );
 
-  const addMovie = () => {
-    if (!newTitle) return;
+  const openAddModal = () => {
+    setEditingIndex(null);
+    setNewTitle("");
+    setNewMeta("");
+    setNewCategory("Pågående");
+    setModalVisible(true);
+  };
 
-    setMovies([
-      ...movies,
-      { title: newTitle, meta: newMeta, category: newCategory },
-    ]);
+  const addOrUpdateMovie = () => {
+    if (!newTitle.trim()) return;
+
+    if (editingIndex !== null) {
+      const updatedMovies = movies.map((movie, index) =>
+        index === editingIndex
+          ? { title: newTitle, meta: newMeta, category: newCategory }
+          : movie
+      );
+
+      setMovies(updatedMovies);
+    } else {
+      setMovies([
+        ...movies,
+        { title: newTitle, meta: newMeta, category: newCategory },
+      ]);
+    }
 
     setNewTitle("");
     setNewMeta("");
     setNewCategory("Pågående");
+    setEditingIndex(null);
     setModalVisible(false);
+  };
+
+  const openEditModal = (movieIndex: number) => {
+    const movieToEdit = movies[movieIndex];
+
+    setEditingIndex(movieIndex);
+    setNewTitle(movieToEdit.title);
+    setNewMeta(movieToEdit.meta);
+    setNewCategory(movieToEdit.category);
+    setModalVisible(true);
   };
 
   const deleteMovie = (movieIndex: number) => {
     const updatedMovies = movies.filter((_, index) => index !== movieIndex);
     setMovies(updatedMovies);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setEditingIndex(null);
+    setNewTitle("");
+    setNewMeta("");
+    setNewCategory("Pågående");
   };
 
   return (
@@ -75,7 +114,7 @@ export default function App() {
         <Text style={styles.subtitle}>Samla och pinn dina filmer & serier</Text>
       </View>
 
-      <Pressable style={styles.addButton} onPress={() => setModalVisible(true)}>
+      <Pressable style={styles.addButton} onPress={openAddModal}>
         <Text style={styles.addButtonText}>＋ Lägg till film eller serie</Text>
       </Pressable>
 
@@ -145,12 +184,21 @@ export default function App() {
               <Text style={styles.cardTitle}>{movie.title}</Text>
               <Text style={styles.cardMeta}>{movie.meta}</Text>
 
-              <Pressable
-                onPress={() => deleteMovie(movieIndex)}
-                style={styles.deleteButton}
-              >
-                <Text style={styles.deleteButtonText}>Ta bort</Text>
-              </Pressable>
+              <View style={styles.cardActions}>
+                <Pressable
+                  onPress={() => openEditModal(movieIndex)}
+                  style={styles.editButton}
+                >
+                  <Text style={styles.editButtonText}>Redigera</Text>
+                </Pressable>
+
+                <Pressable
+                  onPress={() => deleteMovie(movieIndex)}
+                  style={styles.deleteButton}
+                >
+                  <Text style={styles.deleteButtonText}>Ta bort</Text>
+                </Pressable>
+              </View>
             </View>
           );
         })}
@@ -159,7 +207,9 @@ export default function App() {
       <Modal visible={modalVisible} transparent animationType="slide">
         <View style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Lägg till film/serie</Text>
+            <Text style={styles.modalTitle}>
+              {editingIndex !== null ? "Redigera film/serie" : "Lägg till film/serie"}
+            </Text>
 
             <TextInput
               placeholder="Titel"
@@ -204,14 +254,16 @@ export default function App() {
 
             <View style={styles.modalButtons}>
               <TouchableOpacity
-                onPress={addMovie}
+                onPress={addOrUpdateMovie}
                 style={[styles.modalButton, styles.saveButton]}
               >
-                <Text style={styles.addButtonText}>Lägg till</Text>
+                <Text style={styles.addButtonText}>
+                  {editingIndex !== null ? "Spara" : "Lägg till"}
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => setModalVisible(false)}
+                onPress={closeModal}
                 style={[styles.modalButton, styles.cancelButton]}
               >
                 <Text style={styles.cancelButtonText}>Avbryt</Text>
@@ -270,8 +322,24 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: "#94a3b8",
   },
-  deleteButton: {
+  cardActions: {
+    flexDirection: "row",
     marginTop: 12,
+  },
+  editButton: {
+    alignSelf: "flex-start",
+    backgroundColor: "#38bdf8",
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 999,
+    marginRight: 8,
+  },
+  editButtonText: {
+    color: "#082f49",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  deleteButton: {
     alignSelf: "flex-start",
     backgroundColor: "#ef4444",
     paddingHorizontal: 12,
