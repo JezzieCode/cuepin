@@ -190,7 +190,7 @@ export default function App() {
               style={[
                 styles.card,
                 movie.category === "Pågående" && {
-                  borderLeftColor: "#3b82f6",
+                  borderLeftColor: "#67E8F9",
                   borderLeftWidth: 4,
                 },
                 movie.category === "Vill se" && {
@@ -301,7 +301,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f172a",
+    backgroundColor: "black",
   },
   header: {
     paddingTop: 60,
@@ -316,7 +316,7 @@ const styles = StyleSheet.create({
   subtitle: {
     marginTop: 8,
     fontSize: 16,
-    color: "#cbd5e1",
+    color: "white",
   },
   section: {
     paddingHorizontal: 20,
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   card: {
-    backgroundColor: "#1e293b",
+    backgroundColor: "#5B21B6",
     padding: 16,
     borderRadius: 14,
     marginBottom: 12,
@@ -350,20 +350,20 @@ const styles = StyleSheet.create({
   },
   editButton: {
     alignSelf: "flex-start",
-    backgroundColor: "#38bdf8",
+    backgroundColor: "#4C1D95",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 999,
     marginRight: 8,
   },
   editButtonText: {
-    color: "#082f49",
+    color: "#ddd3ebff",
     fontSize: 13,
     fontWeight: "600",
   },
   deleteButton: {
     alignSelf: "flex-start",
-    backgroundColor: "#ef4444",
+    backgroundColor: "#4C1D95",
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 999,
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   categoryChipActive: {
-    backgroundColor: "#22c55e",
+    backgroundColor: "#67E8F9",
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 999,
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     marginHorizontal: 20,
-    backgroundColor: "#22c55e",
+    backgroundColor: "#FFFFFF",
     paddingVertical: 14,
     borderRadius: 14,
     alignItems: "center",
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "#0f172a",
-    color: "white",
+    color: "#3B0764",
     padding: 10,
     borderRadius: 8,
     marginBottom: 12,
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
   statsCard: {
   marginHorizontal: 20,
   marginTop: 20,
-  backgroundColor: "#1e293b",
+  backgroundColor: "#5B21B6",
   borderRadius: 16,
   padding: 16,
 },
