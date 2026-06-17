@@ -114,6 +114,28 @@ export default function App() {
         <Text style={styles.subtitle}>Samla och pinn dina filmer & serier</Text>
       </View>
 
+
+<View style={styles.statsCard}>
+  <Text style={styles.statsTitle}>📊 Statistik</Text>
+
+  <Text style={styles.statsText}>
+    🎬 Totalt: {movies.length}
+  </Text>
+
+  <Text style={styles.statsText}>
+    📺 Pågående: {movies.filter(m => m.category === "Pågående").length}
+  </Text>
+
+  <Text style={styles.statsText}>
+    ⭐ Vill se: {movies.filter(m => m.category === "Vill se").length}
+  </Text>
+
+  <Text style={styles.statsText}>
+    ❤️ Favoriter: {movies.filter(m => m.category === "Favoriter").length}
+  </Text>
+</View>
+
+
       <Pressable style={styles.addButton} onPress={openAddModal}>
         <Text style={styles.addButtonText}>＋ Lägg till film eller serie</Text>
       </Pressable>
@@ -448,4 +470,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
   },
+  statsCard: {
+  marginHorizontal: 20,
+  marginTop: 20,
+  backgroundColor: "#1e293b",
+  borderRadius: 16,
+  padding: 16,
+},
+
+statsTitle: {
+  color: "white",
+  fontSize: 18,
+  fontWeight: "700",
+  marginBottom: 10,
+},
+
+statsText: {
+  color: "#cbd5e1",
+  fontSize: 15,
+  marginBottom: 4,
+},
+
 });
